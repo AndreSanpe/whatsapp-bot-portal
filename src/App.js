@@ -1,89 +1,41 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import './App.css';
-import { auth } from './firebaseConfig';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'firebase/auth';
+import Login from './Login'; // Your login component
+import Dashboard from './Dashboard'; // Main page after login
+import TripHistory from './TripHistory'; // New page for trip history
+import Profile from './Profile'; // New page for profile
 
 function App() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [isRegistering, setIsRegistering] = useState(false);
-  const [user, setUser] = useState(null);
-  const [error, setError] = useState('');
-
-  // Listen to authentication state changes
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setUser(user);
-      } else {
-        setUser(null);
-      }
-    });
-
-    return () => unsubscribe(); // Clean up the listener on unmount
-  }, []);
-
-  // Function to handle user registration
-  const handleRegister = async () => {
-    try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      setUser(userCredential.user);
-    } catch (error) {
-      setError(error.message);
-    }
-  };
-
-  // Function to handle user login
-  const handleLogin = async () => {
-    try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      setUser(userCredential.user);
-    } catch (error) {
-      setError(error.message);
-    }
-  };
-
-  // Function to handle user logout
-  const handleLogout = async () => {
-    await signOut(auth);
-    setUser(null);
-  };
+  const [user, setUser] = useState(null); // You already have the user state
 
   return (
-    <div className="App">
-      {user ? (
-        <div className="home">
-          <h2>Welcome, {user.email}!</h2>
-          <button onClick={handleLogout}>Logout</button>
-        </div>
-      ) : (
-        <div className="login-register-popup">
-          <h2>{isRegistering ? 'Register' : 'Login'}</h2>
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <button onClick={isRegistering ? handleRegister : handleLogin}>
-            {isRegistering ? 'Register' : 'Login'}
-          </button>
-          {error && <p className="error">{error}</p>}
-          <p>
-            {isRegistering ? 'Already have an account?' : "Don't have an account?"}{' '}
-            <span onClick={() => setIsRegistering(!isRegistering)}>
-              {isRegistering ? 'Login' : 'Register'}
-            </span>
-          </p>
-        </div>
+    <Router>
+      {user && (
+        <nav>
+          <ul>
+            <li>
+              <Link to="/dashboard">Dashboard</Link>
+            </li>
+            <li>
+              <Link to="/trips">Trip History</Link>
+            </li>
+            <li>
+              <Link to="/profile">Profile</Link>
+            </li>
+            <li>
+              <button onClick={() => setUser(null)}>Logout</button>
+            </li>
+          </ul>
+        </nav>
       )}
-    </div>
+      <Routes>
+        <Route path="/" element={<Login setUser={setUser} />} />
+        <Route path="/dashboard" element={user ? <Dashboard /> : <Login setUser={setUser} />} />
+        <Route path="/trips" element={user ? <TripHistory /> : <Login setUser={setUser} />} />
+        <Route path="/profile" element={user ? <Profile /> : <Login setUser={setUser} />} />
+      </Routes>
+    </Router>
   );
 }
 
