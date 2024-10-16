@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/whatsapp-bot-portal/static/css/main.09354453.css",
-    "main.js": "/whatsapp-bot-portal/static/js/main.5cf97afc.js",
+    "main.css": "/whatsapp-bot-portal/static/css/main.823802d5.css",
+    "main.js": "/whatsapp-bot-portal/static/js/main.b469e235.js",
     "static/js/453.53aa11fe.chunk.js": "/whatsapp-bot-portal/static/js/453.53aa11fe.chunk.js",
     "index.html": "/whatsapp-bot-portal/index.html",
-    "main.09354453.css.map": "/whatsapp-bot-portal/static/css/main.09354453.css.map",
-    "main.5cf97afc.js.map": "/whatsapp-bot-portal/static/js/main.5cf97afc.js.map",
+    "main.823802d5.css.map": "/whatsapp-bot-portal/static/css/main.823802d5.css.map",
+    "main.b469e235.js.map": "/whatsapp-bot-portal/static/js/main.b469e235.js.map",
     "453.53aa11fe.chunk.js.map": "/whatsapp-bot-portal/static/js/453.53aa11fe.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.09354453.css",
-    "static/js/main.5cf97afc.js"
+    "static/css/main.823802d5.css",
+    "static/js/main.b469e235.js"
   ]
 }
